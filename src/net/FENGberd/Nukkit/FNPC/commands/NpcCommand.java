@@ -1,91 +1,27 @@
 package net.FENGberd.Nukkit.FNPC.commands;
 
-import cn.nukkit.*;
-import cn.nukkit.item.*;
-import cn.nukkit.lang.*;
-import cn.nukkit.utils.*;
-import cn.nukkit.command.*;
-import cn.nukkit.command.data.*;
-
-import net.FENGberd.Nukkit.FNPC.*;
-import net.FENGberd.Nukkit.FNPC.npc.*;
-import net.FENGberd.Nukkit.FNPC.utils.*;
-import net.FENGberd.Nukkit.FNPC.tasks.*;
+import cn.nukkit.Player;
+import cn.nukkit.command.Command;
+import cn.nukkit.command.CommandSender;
+import cn.nukkit.item.Item;
+import cn.nukkit.utils.TextFormat;
+import net.FENGberd.Nukkit.FNPC.Main;
+import net.FENGberd.Nukkit.FNPC.npc.CommandNPC;
+import net.FENGberd.Nukkit.FNPC.npc.NPC;
+import net.FENGberd.Nukkit.FNPC.npc.ReplyNPC;
+import net.FENGberd.Nukkit.FNPC.npc.TeleportNPC;
+import net.FENGberd.Nukkit.FNPC.utils.RegisteredNPC;
 import net.FENGberd.Nukkit.FNPC.utils.Utils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-public class NpcCommand extends Command
-{
-	public NpcCommand()
-	{
-		super("fnpc","");
+public class NpcCommand extends Command {
+	public NpcCommand() {
+		super("fnpc", " ", " ");
 		this.setPermission("FNPC.command.fnpc");
-		this.setAliases(new String[]
-		{
-			"npc"
-		});
-		this.commandParameters.clear();
-		this.commandParameters.put("add",new CommandParameter[]
-		{
-			new CommandParameter("Type",CommandParameter.ARG_TYPE_STRING,false),
-			new CommandParameter("ID",CommandParameter.ARG_TYPE_STRING,false),
-			new CommandParameter("Name",CommandParameter.ARG_TYPE_STRING,false)
-		});
-		this.commandParameters.put("remove",new CommandParameter[]
-		{
-			new CommandParameter("ID",CommandParameter.ARG_TYPE_STRING,false)
-		});
-		this.commandParameters.put("type",new CommandParameter[0]);
-		this.commandParameters.put("skin",new CommandParameter[]
-		{
-			new CommandParameter("ID",CommandParameter.ARG_TYPE_STRING,false),
-			new CommandParameter("File",CommandParameter.ARG_TYPE_STRING,false)
-		});
-		this.commandParameters.put("name",new CommandParameter[]
-		{
-			new CommandParameter("ID",CommandParameter.ARG_TYPE_STRING,false),
-			new CommandParameter("Name",CommandParameter.ARG_TYPE_STRING,false)
-		});
-		this.commandParameters.put("command",new CommandParameter[]
-		{
-			new CommandParameter("ID",CommandParameter.ARG_TYPE_STRING,false),
-			new CommandParameter("add|remove",CommandParameter.ARG_TYPE_STRING_ENUM,false),
-			new CommandParameter("Command",CommandParameter.ARG_TYPE_STRING,false)
-		});
-		// TODO: command <ID> list
-		this.commandParameters.put("tphere",new CommandParameter[]
-		{
-			new CommandParameter("ID",CommandParameter.ARG_TYPE_STRING,false)
-		});
-		this.commandParameters.put("teleport",new CommandParameter[]
-		{
-			new CommandParameter("ID",CommandParameter.ARG_TYPE_STRING,false)
-		});
-		this.commandParameters.put("transfer",new CommandParameter[]
-		{
-			new CommandParameter("ID",CommandParameter.ARG_TYPE_STRING,false),
-			new CommandParameter("IP",CommandParameter.ARG_TYPE_STRING,false),
-			new CommandParameter("Port",CommandParameter.ARG_TYPE_INT,false)
-		});
-		this.commandParameters.put("reset",new CommandParameter[]
-		{
-			new CommandParameter("ID",CommandParameter.ARG_TYPE_STRING,false)
-		});
-		this.commandParameters.put("reset",new CommandParameter[]
-		{
-			new CommandParameter("ID",CommandParameter.ARG_TYPE_STRING,false),
-			new CommandParameter("add|remove",CommandParameter.ARG_TYPE_STRING_ENUM,false),
-			new CommandParameter("Chat",CommandParameter.ARG_TYPE_STRING,false)
-		});
-		this.commandParameters.put("item",new CommandParameter[]
-		{
-			new CommandParameter("ID",CommandParameter.ARG_TYPE_STRING,false),
-			new CommandParameter("Item[:Damage]",CommandParameter.ARG_TYPE_STRING,false)
-		});
-		this.commandParameters.put("help",new CommandParameter[0]);
 	}
-	
+
 	@Override
 	public boolean execute(CommandSender sender,String commandLabel,String[] args)
 	{
@@ -95,7 +31,7 @@ public class NpcCommand extends Command
 		}
 		if(args.length==0)
 		{
-			sender.sendMessage(new TranslationContainer("commands.generic.usage",""));
+			sender.sendMessage("请输入完整的指令");
 			return false;
 		}
 		try
@@ -453,29 +389,4 @@ public class NpcCommand extends Command
 		return true;
 	}
 	
-	public Map<String,CommandDataVersions> processCustomCommandData(Map<String,CommandDataVersions> data)
-	{
-		if(data.containsKey("fnpc"))
-		{
-			data.remove("fnpc");
-			this.commandParameters.forEach((key,par)->
-			{
-				CommandData customData=new CommandData();
-				customData.description=Server.getInstance().getLanguage().translateString(this.getDescription());
-				customData.permission="any";
-				customData.aliases=this.getAliases().clone();
-				for(int i=0;i<customData.aliases.length;i++)
-				{
-					customData.aliases[i]=customData.aliases[i]+" "+key;
-				}
-				CommandOverload overload=new CommandOverload();
-				overload.input.parameters=par;
-				customData.overloads.put(key,overload);
-				CommandDataVersions versions=new CommandDataVersions();
-				versions.versions.add(customData);
-				data.put(this.getName()+" "+key,versions);
-			});
-		}
-		return data;
-	}
 }
