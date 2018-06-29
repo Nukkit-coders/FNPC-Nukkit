@@ -32,7 +32,7 @@ public class NPC extends cn.nukkit.level.Location {
 				try {
 					npc.npcClass.getConstructor(String.class).newInstance(key).reload();
 				} catch (Exception e) {
-					Main.getInstance().getLogger().warning(TextFormat.YELLOW + "加载ID为 "+TextFormat.AQUA+key+TextFormat.YELLOW+" 的NP C 时出现了未知错误");
+					Main.getInstance().getLogger().warning("Unknown NPC loaded and removed");
 				}
 				remove.add(key);
 			}
@@ -55,7 +55,6 @@ public class NPC extends cn.nukkit.level.Location {
 					npc.npcClass.getConstructor(String.class).newInstance(key).reload();
 				} catch (Exception e) {
 					e.printStackTrace();
-					Main.getInstance().getLogger().warning(TextFormat.YELLOW + "加载ID为 "+TextFormat.AQUA+key+TextFormat.YELLOW+" 的NP C 时出现了未知错误");
 				}
 			} else {
 				unknownTypeData.put(key, val);
@@ -90,10 +89,6 @@ public class NPC extends cn.nukkit.level.Location {
 		NPC.pool.values().stream().filter(npc -> npc.distance(player) <= 10).forEach(npc -> npc.look(player));
 	}
 
-	/**
-	 * 静态分割线********************************
-	 */
-
 	public String nametag = "";
 	protected long eid = 0;
 	public Item handItem = null;
@@ -116,8 +111,7 @@ public class NPC extends cn.nukkit.level.Location {
 		this.eid = Entity.entityCount++;
 		NPC existsCheck = NPC.pool.getOrDefault(nid, null);
 		if (existsCheck != null) {
-			Main.getInstance().getLogger().warning(TextFormat.YELLOW + "警告:尝试创建ID重复NPC:"+TextFormat.AQUA
-					+ nid+TextFormat. YELLOW+" ,请检查是否出现逻辑错误" ) ;
+			Main.getInstance().getLogger().warning(TextFormat.YELLOW + "Warning: Created an ID repeat NPC: " + TextFormat.AQUA + nid + TextFormat.YELLOW + ", check for logic errors");
 			existsCheck.close();
 		}
 		NPC.pool.put(nid, this);

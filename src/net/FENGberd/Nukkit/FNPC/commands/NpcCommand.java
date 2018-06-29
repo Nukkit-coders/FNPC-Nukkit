@@ -31,7 +31,6 @@ public class NpcCommand extends Command {
 		}
 		if(args.length==0)
 		{
-			sender.sendMessage("请输入完整的指令");
 			return false;
 		}
 		try
@@ -41,8 +40,8 @@ public class NpcCommand extends Command {
 			{
 			case "type":
 				{
-					final String[] data={TextFormat.GREEN+"=========="+TextFormat.YELLOW+"FNPC Type List"+TextFormat.GREEN+"=========="};
-					Main.getRegisteredNpcs().values().forEach(npcF->data[0]+="\n"+TextFormat.YELLOW+npcF.name+TextFormat.WHITE+" - "+TextFormat.AQUA+npcF.description);
+					final String[] data={TextFormat.GREEN+ "========== " + TextFormat.YELLOW + "FNPC Type List" + TextFormat.GREEN + " =========="};
+					Main.getRegisteredNpcs().values().forEach(npcF->data[0]+="\n" + TextFormat.YELLOW + npcF.name + TextFormat.WHITE + " - " + TextFormat.AQUA + npcF.description);
 					sender.sendMessage(data[0]);
 				}
 				break;
@@ -55,14 +54,14 @@ public class NpcCommand extends Command {
 				{
 					if(NPC.pool.getOrDefault(args[2],null)!=null)
 					{
-						sender.sendMessage("[NPC] "+TextFormat.RED+"已存在同ID的NPC");
+						sender.sendMessage("[NPC] " + TextFormat.RED + "An NPC with the same ID already exists");
 						break;
 					}
 					args[1]=args[1].toLowerCase();
 					RegisteredNPC npcClass=Main.getRegisteredNpcClass(args[1].toLowerCase());
 					if(npcClass==null)
 					{
-						sender.sendMessage("[NPC] "+TextFormat.RED+"指定类型不存在 ,请使用 /fnpc type 查看可用类型");
+						sender.sendMessage("[NPC] " + TextFormat.RED + "The specified type does not exist, use the /fnpc type to see the available types");
 					}
 					else
 					{
@@ -71,12 +70,12 @@ public class NpcCommand extends Command {
 						npc.level=sender_.getLevel().getFolderName();
 						npc.spawnToAll();
 						npc.save();
-						sender.sendMessage("[NPC] "+TextFormat.GREEN+"NPC创建成功");
+						sender.sendMessage("[NPC] " + TextFormat.GREEN+ "NPC created successfully");
 					}
 				}
 				else
 				{
-					sender.sendMessage("[NPC] "+TextFormat.RED+"请在游戏中使用这个指令");
+					sender.sendMessage("[NPC] " + TextFormat.RED + "Please use this command in game");
 				}
 				break;
 			case "transfer":
@@ -87,7 +86,7 @@ public class NpcCommand extends Command {
 				npc=NPC.pool.getOrDefault(args[1],null);
 				if(npc==null)
 				{
-					sender.sendMessage("[NPC] "+TextFormat.RED+"不存在此NPC");
+					sender.sendMessage("[NPC] " + TextFormat.RED + "There is no such NPC");
 				}
 				else if(npc instanceof TeleportNPC)
 				{
@@ -95,11 +94,11 @@ public class NpcCommand extends Command {
 					data.put("ip",args[2]);
 					data.put("port",args[3]);
 					((TeleportNPC)npc).setTeleport(data);
-					sender.sendMessage("[NPC] "+TextFormat.GREEN+"NPC跨服传送设置成功");
+					sender.sendMessage("[NPC] " + TextFormat.GREEN+ "NPC inter-server delivery settings are successful");
 				}
 				else
 				{
-					sender.sendMessage("[NPC] "+TextFormat.RED+"该NPC不是传送型NPC");
+					sender.sendMessage("[NPC] " + TextFormat.RED + "The NPC is not a transport NPC");
 				}
 				break;
 			case "remove":
@@ -110,12 +109,12 @@ public class NpcCommand extends Command {
 				npc=NPC.pool.getOrDefault(args[1],null);
 				if(npc==null)
 				{
-					sender.sendMessage("[NPC] "+TextFormat.RED+"不存在此NPC");
+					sender.sendMessage("[NPC] " + TextFormat.RED + "There is no such NPC");
 				}
 				else
 				{
 					npc.close();
-					sender.sendMessage("[NPC] "+TextFormat.GREEN+"移除成功");
+					sender.sendMessage("[NPC] " + TextFormat.GREEN+ "NPC removed");
 				}
 				break;
 			case "reset":
@@ -126,29 +125,29 @@ public class NpcCommand extends Command {
 				npc=NPC.pool.getOrDefault(args[1],null);
 				if(npc==null)
 				{
-					sender.sendMessage("[NPC] "+TextFormat.RED+"不存在此NPC");
+					sender.sendMessage("[NPC] " + TextFormat.RED + "There is no such NPC");
 					break;
 				}
 				if(npc instanceof TeleportNPC)
 				{
 					((TeleportNPC)npc).setTeleport(new HashMap<>());
-					sender.sendMessage("[NPC] "+TextFormat.GREEN+"NPC传送点移除成功");
+					sender.sendMessage("[NPC] " + TextFormat.GREEN+ "NPC transmission point removed successfully");
 				}
 				else if(npc instanceof CommandNPC)
 				{
 					((CommandNPC)npc).command=new ArrayList<>();
 					npc.save();
-					sender.sendMessage("[NPC] "+TextFormat.GREEN+"NPC指令清空成功");
+					sender.sendMessage("[NPC] " + TextFormat.GREEN+ "NPC command cleared successfully");
 				}
 				else if(npc instanceof ReplyNPC)
 				{
 					((ReplyNPC)npc).chat=new ArrayList<>();
 					npc.save();
-					sender.sendMessage("[NPC] "+TextFormat.GREEN+"NPC对话数据清空成功");
+					sender.sendMessage("[NPC] " + TextFormat.GREEN+ "NPC session data cleared successfully");
 				}
 				else
 				{
-					sender.sendMessage("[NPC] "+TextFormat.YELLOW+"该NPC没有可重置的属性");
+					sender.sendMessage("[NPC] " + TextFormat.YELLOW + "The NPC does not have a resettable attribute");
 				}
 				break;
 			case "teleport":
@@ -161,21 +160,21 @@ public class NpcCommand extends Command {
 					npc=NPC.pool.getOrDefault(args[1],null);
 					if(npc==null)
 					{
-						sender.sendMessage("[NPC] "+TextFormat.RED+"不存在此NPC");
+						sender.sendMessage("[NPC] " + TextFormat.RED + "There is no such NPC");
 					}
 					else if(npc instanceof TeleportNPC)
 					{
 						((TeleportNPC)npc).setTeleport((Player)sender);
-						sender.sendMessage("[NPC] "+TextFormat.GREEN+"NPC传送点设置成功");
+						sender.sendMessage("[NPC] " + TextFormat.GREEN+ "NPC transmission point is set successfully");
 					}
 					else
 					{
-						sender.sendMessage("[NPC] "+TextFormat.RED+"该NPC不是传送型NPC");
+						sender.sendMessage("[NPC] " + TextFormat.RED + "The NPC is not a transport NPC");
 					}
 				}
 				else
 				{
-					sender.sendMessage("[NPC] "+TextFormat.RED+"请在游戏中使用这个指令");
+					sender.sendMessage("[NPC] " + TextFormat.RED + "Please use this command in game");
 				}
 				break;
 			case "command":
@@ -186,7 +185,7 @@ public class NpcCommand extends Command {
 				npc=NPC.pool.getOrDefault(args[1],null);
 				if(npc==null)
 				{
-					sender.sendMessage("[NPC] "+TextFormat.RED+"不存在此NPC");
+					sender.sendMessage("[NPC] " + TextFormat.RED + "There is no such NPC");
 				}
 				else if(npc instanceof CommandNPC)
 				{
@@ -203,7 +202,7 @@ public class NpcCommand extends Command {
 							cmd+=args[i]+(i!=args.length-1?" ":"");
 						}
 						((CommandNPC)npc).addCommand(cmd);
-						sender.sendMessage("[NPC] "+TextFormat.GREEN+"NPC指令添加成功");
+						sender.sendMessage("[NPC] " + TextFormat.GREEN+ "Command added");
 						break;
 					case "remove":
 						if(args.length<4)
@@ -216,16 +215,16 @@ public class NpcCommand extends Command {
 						}
 						if(((CommandNPC)npc).removeCommand(cmd))
 						{
-							sender.sendMessage("[NPC] "+TextFormat.GREEN+"NPC指令移除成功");
+							sender.sendMessage("[NPC] " + TextFormat.GREEN+ "Command removed");
 						}
 						else
 						{
-							sender.sendMessage("[NPC] "+TextFormat.RED+"NPC未添加该指令");
+							sender.sendMessage("[NPC] " + TextFormat.RED + "Adding command failed");
 						}
 						break;
 					case "list":
-						final String[] data={TextFormat.GREEN+"===NPC指令列表===\n"};
-						((CommandNPC)npc).command.forEach(cmdData->data[0]+=TextFormat.YELLOW+cmdData+"\n");
+						final String[] data={TextFormat.GREEN+ "=== NPC Help ===\n"};
+						((CommandNPC)npc).command.forEach(cmdData->data[0]+=TextFormat.YELLOW + cmdData + "\n");
 						sender.sendMessage(data[0]);
 						break;
 					default:
@@ -234,7 +233,7 @@ public class NpcCommand extends Command {
 				}
 				else
 				{
-					sender.sendMessage("[NPC] "+TextFormat.RED+"该NPC不是指令型NPC");
+					sender.sendMessage("[NPC] " + TextFormat.RED + "This NPC is not command NPC");
 				}
 				break;
 			case "chat":
@@ -245,7 +244,7 @@ public class NpcCommand extends Command {
 				npc=NPC.pool.getOrDefault(args[1],null);
 				if(npc==null)
 				{
-					sender.sendMessage("[NPC] "+TextFormat.RED+"不存在此NPC");
+					sender.sendMessage("[NPC] " + TextFormat.RED + "There is no such NPC");
 				}
 				else if(npc instanceof ReplyNPC)
 				{
@@ -262,7 +261,7 @@ public class NpcCommand extends Command {
 							chat+=args[i]+(i!=args.length-1?" ":"");
 						}
 						((ReplyNPC)npc).addChat(chat);
-						sender.sendMessage("[NPC] "+TextFormat.GREEN+"NPC对话数据添加成功");
+						sender.sendMessage("[NPC] " + TextFormat.GREEN+ "NPC session data was added successfully");
 						break;
 					case "remove":
 						if(args.length<4)
@@ -275,11 +274,11 @@ public class NpcCommand extends Command {
 						}
 						if(((ReplyNPC)npc).removeChat(chat))
 						{
-							sender.sendMessage("[NPC] "+TextFormat.GREEN+"NPC对话数据移除成功");
+							sender.sendMessage("[NPC] " + TextFormat.GREEN+ "NPC session data removed successfully");
 						}
 						else
 						{
-							sender.sendMessage("[NPC] "+TextFormat.RED+"NPC未添加该对话数据");
+							sender.sendMessage("[NPC] " + TextFormat.RED + "Adding data failed");
 						}
 						break;
 					default:
@@ -288,7 +287,7 @@ public class NpcCommand extends Command {
 				}
 				else
 				{
-					sender.sendMessage("[NPC] "+TextFormat.RED+"该NPC不是回复型NPC");
+					sender.sendMessage("[NPC] " + TextFormat.RED + "The NPC is not a reply NPC");
 				}
 				break;
 			case "name":
@@ -299,12 +298,12 @@ public class NpcCommand extends Command {
 				npc=NPC.pool.getOrDefault(args[1],null);
 				if(npc==null)
 				{
-					sender.sendMessage("[NPC] "+TextFormat.RED+"不存在此NPC");
+					sender.sendMessage("[NPC] " + TextFormat.RED + "There is no such NPC");
 				}
 				else
 				{
 					npc.setName(args[2]);
-					sender.sendMessage("[NPC] "+TextFormat.GREEN+"NameTag设置成功");
+					sender.sendMessage("[NPC] " + TextFormat.GREEN+ "NameTag changed");
 				}
 				break;
 			case "skin":
@@ -315,12 +314,12 @@ public class NpcCommand extends Command {
 				npc=NPC.pool.getOrDefault(args[1],null);
 				if(npc==null)
 				{
-					sender.sendMessage("[NPC] "+TextFormat.RED+"不存在此NPC");
+					sender.sendMessage("[NPC] " + TextFormat.RED + "There is no such NPC");
 				}
 				else
 				{
 					npc.setPNGSkin(args[2]);
-					sender.sendMessage("[NPC] "+TextFormat.GREEN+"皮肤更换成功");
+					sender.sendMessage("[NPC] " + TextFormat.GREEN+ "Skin changed");
 				}
 				break;
 			case "item":
@@ -331,13 +330,13 @@ public class NpcCommand extends Command {
 				npc=NPC.pool.getOrDefault(args[1],null);
 				if(npc==null)
 				{
-					sender.sendMessage("[NPC] "+TextFormat.RED+"不存在此NPC");
+					sender.sendMessage("[NPC] " + TextFormat.RED + "There is no such NPC");
 				}
 				else
 				{
 					String[] itemData=args[2].split(":");
 					npc.setHandItem(Item.get(Integer.parseInt(itemData[0]),Integer.parseInt(itemData.length<2?"0":itemData[1])));
-					sender.sendMessage("[NPC] "+TextFormat.GREEN+"手持物品更换成功");
+					sender.sendMessage("[NPC] " + TextFormat.GREEN+ "Item replaced");
 				}
 				break;
 			case "tphere":
@@ -348,42 +347,42 @@ public class NpcCommand extends Command {
 				npc=NPC.pool.getOrDefault(args[1],null);
 				if(npc==null)
 				{
-					sender.sendMessage("[NPC] "+TextFormat.RED+"不存在此NPC");
+					sender.sendMessage("[NPC] " + TextFormat.RED + "There is no such NPC");
 				}
 				else if(sender instanceof Player)
 				{
 					npc.teleport(Utils.cast(sender));
-					sender.sendMessage("[NPC] "+TextFormat.GREEN+"传送成功");
+					sender.sendMessage("[NPC] " + TextFormat.GREEN+ "Transfered successfully");
 				}
 				else
 				{
-					sender.sendMessage("[NPC] "+TextFormat.RED+"请在游戏中使用这个指令");
+					sender.sendMessage("[NPC] " + TextFormat.RED + "Please use this command in game");
 				}
 				break;
 			default:
 			case "help":
-				sender.sendMessage(TextFormat.GREEN+"===NPC系统指令帮助===\n"+
-					TextFormat.GREEN+"所有指令前面必须加/fnpc \n"+
-					TextFormat.YELLOW+"add <Type> <ID> <Name> - 添加一个NPC\n"+
-					TextFormat.YELLOW+"type - 列出可用的Type类型\n"+
-					TextFormat.YELLOW+"remove <ID> - 移除一个NPC\n"+
-					TextFormat.YELLOW+"skin <ID> <File> - 设置NPC皮肤\n"+
-					TextFormat.YELLOW+"name <ID> <Name> - 设置NPC名称\n"+
-					TextFormat.YELLOW+"command <ID> <add/remove> <Command> - 添加/删除NPC指令\n"+
-					TextFormat.YELLOW+"command <ID> list - 列出NPC指令\n"+
-					TextFormat.YELLOW+"tphere <ID> - 把NPC传送过来\n"+
-					TextFormat.YELLOW+"teleport <ID> - 设置NPC传送目标为你的位置\n"+
-					TextFormat.YELLOW+"transfer <ID> <IP> <Port> - 设置NPC跨服传送\n"+
-					TextFormat.YELLOW+"reset <ID> - 重置NPC的设置\n"+
-					TextFormat.YELLOW+"chat <ID> <add/remove> <Chat> - 添加/删除NPC对话数据\n"+
-					TextFormat.YELLOW+"item <ID> <Item[:Damage]> - 设置NPC手持物品\n"+
-					TextFormat.YELLOW+"help - 查看帮助");
+				sender.sendMessage(TextFormat.GREEN+ "=== NPC Help ===\n" +
+					TextFormat.GREEN+ "All commands must be preceded by /fnpc\n" +
+					TextFormat.YELLOW + "add <Type> <ID> <Name> - Add an NPC\n" +
+					TextFormat.YELLOW + "type - List all available NPC types\n" +
+					TextFormat.YELLOW + "remove <ID> - Remove an NPC\n" +
+					TextFormat.YELLOW + "skin <ID> <File> - Set NPC's skin\n" +
+					TextFormat.YELLOW + "name <ID> <Name> - Set NPC's name\n" +
+					TextFormat.YELLOW + "command <ID> <add/remove> <Command> - Add or remove command for NPC\n" +
+					TextFormat.YELLOW + "command <ID> list - List NPC's commands\n" +
+					TextFormat.YELLOW + "tphere <ID> - Teleport NPC to your position\n" +
+					TextFormat.YELLOW + "teleport <ID> - Set NPC transfer destination to your location\n" +
+					TextFormat.YELLOW + "transfer <ID> <IP> <Port> - Set up NPC cross-over delivery\n" +
+					TextFormat.YELLOW + "reset <ID> - Reset NPC settings\n" +
+					TextFormat.YELLOW + "chat <ID> <add/remove> <Chat> - Add or remove NPC conversation data\n" +
+					TextFormat.YELLOW + "item <ID> <Item[:Damage]> - Set up NPC hand items\n" +
+					TextFormat.YELLOW + "help - See help");
 				break;
 			}
 		}
 		catch(Exception e)
 		{
-			sender.sendMessage("[NPC] "+TextFormat.RED+"出现了未知错误");
+			sender.sendMessage("[NPC] " + TextFormat.RED + "Unknown error occurred");
 			e.printStackTrace();
 		}
 		return true;

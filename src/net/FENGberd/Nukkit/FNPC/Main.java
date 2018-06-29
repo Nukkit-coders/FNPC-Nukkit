@@ -68,10 +68,10 @@ public class Main extends cn.nukkit.plugin.PluginBase implements cn.nukkit.event
 		if(Main.obj==null)
 		{
 			Main.obj=this;
-			Main.registerNpc("normal","普通NPC(无实际功能)",NPC.class,true);
-			Main.registerNpc("reply","回复型NPC(使用/fnpc chat)",ReplyNPC.class,true);
-			Main.registerNpc("command","指令型NPC(使用/fnpc command)",CommandNPC.class,true);
-			Main.registerNpc("teleport","传送型NPC(使用/fnpc teleport或/fnpc transfer)",TeleportNPC.class,true);
+			Main.registerNpc("normal","Normal NPC (no actual function)",NPC.class,true);
+			Main.registerNpc("reply","Reply-type NPC (using /fnpc chat)",ReplyNPC.class,true);
+			Main.registerNpc("command","Command NPC (using /fnpc command)",CommandNPC.class,true);
+			Main.registerNpc("teleport","Transport NPC (using /fnpc teleport or /fnpc transfer)",TeleportNPC.class,true);
 		}
 		NPC.init();
 		QuickSystemTask quickSystemTask=new QuickSystemTask(this);

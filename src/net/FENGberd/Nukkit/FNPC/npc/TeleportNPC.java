@@ -37,21 +37,21 @@ public class TeleportNPC extends NPC {
 			player.dataPacket(pk);
 		} else if (this.teleport.getOrDefault("x", null) == null || this.teleport.getOrDefault("y", null) == null
 				|| this.teleport.getOrDefault("z", null) == null) {
-			player.sendMessage("[System] " + TextFormat.RED + "该NPC未设置传送目标");
+			player.sendMessage("[System] " + TextFormat.RED + "The NPC does not have transfer destination");
 		} else if (this.teleport.getOrDefault("level", null) != null) {
 			Level level = Main.getInstance().getServer().getLevelByName(Utils.cast(this.teleport.get("level")));
 			if (level == null) {
-				player.sendMessage("[System] " + TextFormat.RED + "目标传送世界不存在");
+				player.sendMessage("[System] " + TextFormat.RED + "The target world does not exist");
 			} else {
 				player.teleport(new Position(Utils.cast(this.teleport.getOrDefault("x", 0)),
 						Utils.cast(this.teleport.getOrDefault("y", 0)), Utils.cast(this.teleport.getOrDefault("z", 0)),
 						level));
-				player.sendMessage("[System] " + TextFormat.GREEN + "传送成功");
+				player.sendMessage("[System] " + TextFormat.GREEN + "Transfered successfully");
 			}
 		} else {
 			player.teleport(new Vector3(Utils.cast(this.teleport.getOrDefault("x", 0)),
 					Utils.cast(this.teleport.getOrDefault("y", 0)), Utils.cast(this.teleport.getOrDefault("z", 0))));
-			player.sendMessage("[System] " + TextFormat.GREEN + "传送成功");
+			player.sendMessage("[System] " + TextFormat.GREEN + "Transfered successfully");
 		}
 	}
 
