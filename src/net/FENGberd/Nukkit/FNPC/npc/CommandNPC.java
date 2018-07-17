@@ -27,8 +27,7 @@ public class CommandNPC extends NPC {
 	@Override
 	public void onTouch(Player player) {
 		this.command.forEach(cmd -> {
-			cmd = cmd.replace("%p", player.getName()).replace("%x", String.valueOf(player.getX()))
-					.replace("%y", String.valueOf(player.getY())).replace("%z", String.valueOf(player.getZ()));
+			cmd = cmd.replace("%p", player.getName()).replace("%x", String.valueOf(player.getX())).replace("%y", String.valueOf(player.getY())).replace("%z", String.valueOf(player.getZ()));
 			if (!player.isOp() && cmd.contains("%op")) {
 				cmd = cmd.replace("%op", "");
 				player.setOp(true);

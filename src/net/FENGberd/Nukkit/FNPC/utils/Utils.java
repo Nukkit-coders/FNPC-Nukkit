@@ -4,11 +4,8 @@ import java.io.*;
 import java.util.*;
 import java.nio.*;
 import java.awt.image.*;
-
 import javax.imageio.ImageIO;
-
 import cn.nukkit.lang.*;
-
 import net.FENGberd.Nukkit.FNPC.*;
 
 public class Utils {

@@ -7,7 +7,6 @@ public class RegisteredNPC {
 	public String name = "", description = "";
 
 	public RegisteredNPC() {
-
 	}
 
 	public RegisteredNPC(Class<NPC> npcClass, String name, String description) {

@@ -15,46 +15,38 @@ import net.FENGberd.Nukkit.FNPC.utils.Utils;
 import java.util.HashMap;
 
 @SuppressWarnings("unused")
-public class Main extends cn.nukkit.plugin.PluginBase implements cn.nukkit.event.Listener
-{
+public class Main extends cn.nukkit.plugin.PluginBase implements cn.nukkit.event.Listener {
 	private static Main obj=null;
 	private static HashMap<String,RegisteredNPC> registeredNPC=new HashMap<>();
 
-	public static Main getInstance()
-	{
+	public static Main getInstance() {
 		return Main.obj;
 	}
 
-	public static HashMap<String,RegisteredNPC> getRegisteredNpcs()
-	{
+	public static HashMap<String,RegisteredNPC> getRegisteredNpcs() {
 		return registeredNPC;
 	}
 
 	public static RegisteredNPC getRegisteredNpcClass(String name)
 	{
 		RegisteredNPC npc=Main.registeredNPC.getOrDefault(name.toLowerCase(),null);
-		if(npc==null)
-		{
+		if (npc==null) {
 			return null;
 		}
 		return npc;
 	}
 
-	public static void unregisterNpc(String name)
-	{
+	public static void unregisterNpc(String name) {
 		Main.registeredNPC.remove(name.toLowerCase());
 	}
 
-	public static boolean registerNpc(String name,String description,Class npcClass)
-	{
+	public static boolean registerNpc(String name,String description,Class npcClass) {
 		return Main.registerNpc(name,description,npcClass,false);
 	}
 
-	public static boolean registerNpc(String name,String description,Class npcClass,boolean force)
-	{
+	public static boolean registerNpc(String name,String description,Class npcClass,boolean force) {
 		name=name.toLowerCase();
-		if(NPC.class.isAssignableFrom(npcClass) && ! npcClass.isInterface() && (Main.registeredNPC.getOrDefault(name,null)==null || force))
-		{
+		if (NPC.class.isAssignableFrom(npcClass) && ! npcClass.isInterface() && (Main.registeredNPC.getOrDefault(name,null)==null || force)) {
 			Main.registeredNPC.put(name,new RegisteredNPC(Utils.cast(npcClass),name,description));
 			NPC.reloadUnknownNPC();
 			return true;
@@ -63,10 +55,8 @@ public class Main extends cn.nukkit.plugin.PluginBase implements cn.nukkit.event
 	}
 
 	@Override
-	public void onEnable()
-	{
-		if(Main.obj==null)
-		{
+	public void onEnable() {
+		if (Main.obj==null) {
 			Main.obj=this;
 			Main.registerNpc("normal","Normal NPC (no actual function)",NPC.class,true);
 			Main.registerNpc("reply","Reply-type NPC (using /fnpc chat)",ReplyNPC.class,true);
@@ -79,34 +69,29 @@ public class Main extends cn.nukkit.plugin.PluginBase implements cn.nukkit.event
 		
 		this.getServer().getPluginManager().registerEvents(this,this);
 		this.getServer().getScheduler().scheduleRepeatingTask(quickSystemTask,1);
+		this.saveResource("defaultSkin.png");
 	}
 	
 	@EventHandler(priority=EventPriority.HIGH)
-	public void onPlayerMove(cn.nukkit.event.player.PlayerMoveEvent event)
-	{
+	public void onPlayerMove(cn.nukkit.event.player.PlayerMoveEvent event) {
 		NPC.playerMove(event.getPlayer());
 	}
 	
 	@EventHandler(priority=EventPriority.HIGH)
-	public void onDataPacketReceive(DataPacketReceiveEvent event)
-	{
-
-			NPC.packetReceive(event.getPlayer(),event.getPacket());
+	public void onDataPacketReceive(DataPacketReceiveEvent event) {
+		NPC.packetReceive(event.getPlayer(),event.getPacket());
 	}
 	
 
 	@EventHandler(priority=EventPriority.HIGH)
-	public void onPlayerJoin(cn.nukkit.event.player.PlayerJoinEvent event)
-	{
+	public void onPlayerJoin(cn.nukkit.event.player.PlayerJoinEvent event) {
 		NPC.spawnAllTo(event.getPlayer());
 	}
 	
 	@EventHandler(priority=EventPriority.HIGH)
-	public void onEntityLevelChange(cn.nukkit.event.entity.EntityLevelChangeEvent event)
-	{
-		if(event.getEntity() instanceof cn.nukkit.Player)
-		{
-			NPC.spawnAllTo(Utils.cast(event.getEntity()),event.getTarget());
+	public void onEntityLevelChange(cn.nukkit.event.entity.EntityLevelChangeEvent event) {
+		if (event.getEntity() instanceof cn.nukkit.Player) {
+			NPC.spawnAllTo(Utils.cast(event.getEntity()), event.getTarget());
 		}
 	}
 }

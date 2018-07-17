@@ -4,10 +4,10 @@ import cn.nukkit.Player;
 import cn.nukkit.item.Item;
 import cn.nukkit.level.*;
 import cn.nukkit.math.Vector3;
+import cn.nukkit.network.protocol.TransferPacket;
 import cn.nukkit.utils.TextFormat;
 
 import net.FENGberd.Nukkit.FNPC.Main;
-import net.FENGberd.Nukkit.FNPC.protocol.StrangePacket;
 import net.FENGberd.Nukkit.FNPC.utils.Utils;
 
 import java.util.HashMap;
@@ -31,7 +31,7 @@ public class TeleportNPC extends NPC {
 	@Override
 	public void onTouch(Player player) {
 		if (this.teleport.getOrDefault("ip", null) != null && this.teleport.getOrDefault("port", null) != null) {
-			StrangePacket pk = new StrangePacket();
+			TransferPacket pk = new TransferPacket();
 			pk.address = Utils.cast(this.teleport.getOrDefault("ip", ""));
 			pk.port = Short.parseShort(Utils.cast(this.teleport.getOrDefault("port", 0)));
 			player.dataPacket(pk);

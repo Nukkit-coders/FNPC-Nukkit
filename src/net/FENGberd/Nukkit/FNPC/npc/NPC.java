@@ -73,11 +73,9 @@ public class NPC extends cn.nukkit.level.Location {
 	}
 
 	public static void packetReceive(Player player, DataPacket packet) {
-		if (packet.pid() == ProtocolInfo.INTERACT_PACKET && !packet.equals(NPC.packet_hash)
-				&& ((InteractPacket) packet).action != InteractPacket.ACTION_MOUSEOVER) {
+		if (packet.pid() == ProtocolInfo.INTERACT_PACKET && !packet.equals(NPC.packet_hash) && ((InteractPacket) packet).action != InteractPacket.ACTION_MOUSEOVER) {
 			NPC.packet_hash = packet;
-			NPC.pool.values().stream().filter(npc -> ((InteractPacket) packet).target == npc.getEID())
-					.forEach(npc -> npc.onTouch(player));
+			NPC.pool.values().stream().filter(npc -> ((InteractPacket) packet).target == npc.getEID()).forEach(npc -> npc.onTouch(player));
 		}
 	}
 
@@ -236,11 +234,9 @@ public class NPC extends cn.nukkit.level.Location {
 	}
 
 	public void onTick() {
-
 	}
 
 	public void onTouch(Player player) {
-
 	}
 
 	public void teleport(Vector3 pos) {
@@ -311,6 +307,7 @@ public class NPC extends cn.nukkit.level.Location {
 		for (Object p : players.toArray()) {
 			this.spawnTo(Utils.cast(p));
 		}
+		this.setPNGSkin("defaultSkin.png");
 	}
 
 	public boolean spawnTo(Player player) {
@@ -326,8 +323,8 @@ public class NPC extends cn.nukkit.level.Location {
 			this.despawnFrom(player);
 			return false;
 		}
-		Server.getInstance().updatePlayerListData(this.uuid, this.getEID(), this.nametag, this.skin,
-				new Player[] { player });
+		Server.getInstance().updatePlayerListData(this.uuid, this.getEID(), this.nametag, this.skin, new Player[] { player });
+
 		AddPlayerPacket pk = new AddPlayerPacket();
 		pk.username = this.nametag;
 		pk.entityUniqueId = this.getEID();
