@@ -69,7 +69,7 @@ public class Main extends cn.nukkit.plugin.PluginBase implements cn.nukkit.event
 		
 		this.getServer().getPluginManager().registerEvents(this,this);
 		this.getServer().getScheduler().scheduleRepeatingTask(quickSystemTask,1);
-		this.saveResource("defaultSkin.png");
+		this.saveResource("defaultSkin.png", "/skins/defaultSkin.png", false);
 	}
 	
 	@EventHandler(priority=EventPriority.HIGH)
